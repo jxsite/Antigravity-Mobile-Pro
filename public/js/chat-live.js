@@ -344,6 +344,8 @@
                         }
 
                         const container = document.getElementById('cascade-container');
+                        const previousScrollTop = container.scrollTop;
+                        const previousScrollHeight = container.scrollHeight;
                         const isAtBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 100;
 
                         // Merge with cached content if caching is enabled
@@ -356,7 +358,7 @@
                         // Attach click handlers for approval buttons in the injected content
                         attachApprovalHandlers(container);
 
-                        // Scroll to bottom if was at bottom
+                        // Restore scroll position or scroll to bottom
                         if (isAtBottom) {
                             // Use scrollIntoView on the last element for better reliability
                             setTimeout(() => {
@@ -366,6 +368,12 @@
                                     container.scrollTop = container.scrollHeight;
                                 }
                             }, 100);
+                        } else {
+                            // User was scrolling up, maintain their exact scroll position
+                            const heightDiff = container.scrollHeight - previousScrollHeight;
+                            // If new content was added at the bottom, just keep the same absolute scroll top.
+                            // If they are reading old history, this will keep them exactly where they were.
+                            container.scrollTop = previousScrollTop;
                         }
                     }
                 } else if (data.error) {
