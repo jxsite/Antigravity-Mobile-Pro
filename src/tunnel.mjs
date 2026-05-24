@@ -64,6 +64,9 @@ export function startTunnel(port, timeoutMs = 30000) {
             // or: INF +---... https://....trycloudflare.com ...
             const urlMatch = text.match(/(https:\/\/[a-zA-Z0-9-]+\.trycloudflare\.com)/);
             if (urlMatch && !resolved) {
+                // Exclude Cloudflare's backend API URL
+                if (urlMatch[1].includes('api.trycloudflare.com')) return;
+
                 resolved = true;
                 startingUp = false;
                 tunnelUrl = urlMatch[1];

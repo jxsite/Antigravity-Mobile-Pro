@@ -145,11 +145,21 @@ async function connectCDP(wsUrl) {
  */
 async function findCascadeContext(cdp) {
     const SCRIPT = `(() => {
-        const cascade = document.getElementById('cascade') || document.getElementById('conversation');
+        // Try to find the chat container
+        const cascade = document.getElementById('cascade') || document.getElementById('conversation') || document.getElementById('root');
         if (!cascade) return { found: false };
+        
+        // If we fell back to a generic #root, verify it's actually the chat webview and not just a file viewer
+        if (cascade.id === 'root') {
+            const hasChatUI = cascade.querySelector('textarea, [contenteditable], .agent-response, .chat-message, [class*="chat-input"], [class*="inputBar"], [class*="conversation"], .interactive-input-part, .monaco-editor, .welcome-view, [class*="Welcome"]');
+            if (!hasChatUI) {
+                return { found: false }; // Not the chat webview
+            }
+        }
+        
         return { 
-            found: true,
-            hasContent: cascade.children.length > 0
+            found: true, 
+            id: cascade.id 
         };
     })()`;
 
@@ -193,7 +203,7 @@ async function findCascadeContext(cdp) {
  */
 async function captureChat(cdp, contextId) {
     const SCRIPT = `(async () => {
-        const cascade = document.getElementById('cascade') || document.getElementById('conversation');
+        const cascade = document.getElementById('cascade') || document.getElementById('conversation') || document.getElementById('root');
         if (!cascade) return { error: 'cascade not found' };
         
         // --- PREPARE CLONE ---

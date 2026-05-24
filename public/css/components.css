@@ -295,6 +295,12 @@ body.sidebar-expanded .content {
     overflow: hidden;
 }
 
+@media (max-width: 768px) {
+    .chat-container {
+        height: calc(100dvh - 64px - env(safe-area-inset-bottom, 20px));
+    }
+}
+
 .chat-messages {
     flex: 1;
     overflow-y: auto;

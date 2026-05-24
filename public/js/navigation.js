@@ -18,15 +18,20 @@
         // View Switching (simplified - Chat is always visible)
         // ====================================================================
 
-        // Shared panel-switching logic for both sidebar and topbar
-        function switchPanel(panel, sourceSelector) {
-            // Update active states on both sidebar and topbar
+        // Shared panel-switching logic for both sidebar and topbar and bottombar
+        function switchPanel(panel) {
+            // Update active states on sidebar, topbar, and bottombar
             document.querySelectorAll('.sidebar-item').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.topbar-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.bottombar-btn').forEach(b => b.classList.remove('active'));
+            
             const sidebarBtn = document.querySelector(`.sidebar-item[data-panel="${panel}"]`);
             const topbarBtn = document.querySelector(`.topbar-btn[data-panel="${panel}"]`);
+            const bottombarBtn = document.querySelector(`.bottombar-btn[data-panel="${panel}"]`);
+            
             if (sidebarBtn) sidebarBtn.classList.add('active');
             if (topbarBtn) topbarBtn.classList.add('active');
+            if (bottombarBtn) bottombarBtn.classList.add('active');
 
             if (panel === 'settings') {
                 document.getElementById('settingsPanel').style.display = 'block';
@@ -52,12 +57,17 @@
 
         // Sidebar Nav
         document.querySelectorAll('.sidebar-item').forEach(btn => {
-            btn.addEventListener('click', () => switchPanel(btn.dataset.panel, '.sidebar-item'));
+            btn.addEventListener('click', () => switchPanel(btn.dataset.panel));
         });
 
         // Topbar Nav
         document.querySelectorAll('.topbar-btn').forEach(btn => {
-            btn.addEventListener('click', () => switchPanel(btn.dataset.panel, '.topbar-btn'));
+            btn.addEventListener('click', () => switchPanel(btn.dataset.panel));
+        });
+        
+        // Bottombar Nav
+        document.querySelectorAll('.bottombar-btn').forEach(btn => {
+            btn.addEventListener('click', () => switchPanel(btn.dataset.panel));
         });
 
         function closePanel() {

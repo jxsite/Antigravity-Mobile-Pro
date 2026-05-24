@@ -310,6 +310,29 @@
                                     --ide-text-color: var(--text-primary) !important;
                                 }
                                 
+                                /* Hide IDE native input box and footers to prevent double input UI */
+                                #cascade-container textarea,
+                                #cascade-container .monaco-inputbox,
+                                #cascade-container [class*="chat-input"],
+                                #cascade-container [aria-label*="chat input" i],
+                                #cascade-container [class*="Composer"],
+                                #cascade-container [class*="composer"],
+                                #cascade-container [class*="InputBar"],
+                                #cascade-container [class*="input-bar"],
+                                #cascade-container [class*="footer"],
+                                #cascade-container [style*="position: sticky"],
+                                #cascade-container [style*="position:absolute"][style*="bottom:0"],
+                                /* Hide IDE title bars, tabs, and breadcrumbs */
+                                #cascade-container .part.titlebar,
+                                #cascade-container .title.titlebar,
+                                #cascade-container .tabs-and-actions-container,
+                                #cascade-container .editor-group-container > .title,
+                                #cascade-container .breadcrumbs-control,
+                                #cascade-container [class*="titlebar"],
+                                #cascade-container [class*="breadcrumb"] {
+                                    display: none !important;
+                                }
+                                
                                 /* Ensure codicon font renders properly on mobile */
                                 #cascade-container .codicon,
                                 #cascade-container [class*="codicon-"] {

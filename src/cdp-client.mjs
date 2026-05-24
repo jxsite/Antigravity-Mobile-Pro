@@ -608,12 +608,12 @@ export async function getWorkspacePath() {
         return null;
     }
 
-    console.log(`[CDP getWorkspacePath] Target title: "${target.title}"`);
+    // console.log(`[CDP getWorkspacePath] Target title: "${target.title}"`);
 
     // Extract project name from title: "ProjectName — filename" or "ProjectName - Antigravity - filename"
     const titleMatch = target.title.match(/^([^\u2014-]+)\s*[\u2014-]/);
     const projectName = titleMatch ? titleMatch[1].trim() : (preferredWorkspace || null);
-    console.log(`[CDP getWorkspacePath] Extracted project name: "${projectName}"`);
+    // console.log(`[CDP getWorkspacePath] Extracted project name: "${projectName}"`);
 
     const client = await connectToTarget(target);
 
@@ -691,10 +691,10 @@ export async function getWorkspacePath() {
         });
 
         const data = result.result?.value;
-        console.log(`[CDP getWorkspacePath] DOM result:`, JSON.stringify(data));
+        // console.log(`[CDP getWorkspacePath] DOM result:`, JSON.stringify(data));
 
         if (!data?.path) {
-            console.log(`[CDP getWorkspacePath] No path: ${data?.error || 'unknown'}`);
+            // console.log(`[CDP getWorkspacePath] No path: ${data?.error || 'unknown'}`);
             return null;
         }
 
